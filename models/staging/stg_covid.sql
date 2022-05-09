@@ -1,0 +1,10 @@
+{{ config(materialized='view') }}
+
+with covid as (
+SELECT 
+NOTIFICATION_DATE,LHD_2010_CODE,LHD_2010_NAME,LGA_CODE19,LGA_NAME19,CONFIRMED_CASES_COUNT
+,CASE WHEN postcode = 'None' THEN 'NULL' ELSE postcode END as postcode
+FROM FIVETRAN_DATABASE.FUEL_PRICE.COVID_CASE
+WHERE POSTCODE is Not null 
+)
+select * FROM covid
